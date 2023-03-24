@@ -33,8 +33,27 @@ int main()
     }
 #pragma endregion
 
-    std::cout << "Linear result: " << multiplyLinear(A, B, C).count() << " microseconds" << std::endl;
-    std::cout << "OpenMP result: " << multiplyOpenMP(A, B, C).count() << " microseconds" << std::endl;
+    /*int threadsNum = 2;
+    omp_set_num_threads(threadsNum);
+    int i, j, k;
+    auto start = std::chrono::high_resolution_clock::now();
+#pragma omp parallel for shared(A, B, C) private(i, j, k)
+
+
+    for (i = 0; i < size; i++) {
+        for (j = 0; j < size; j++) {
+            for (int k = 0; k < size; k++) {
+                C[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+
+    auto end = std::chrono::high_resolution_clock::now();
+
+
+    std::cout << "OpenMP result: " << std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() << " microseconds" << std::endl;*/
+    std::cout << "Linear result:  " << multiplyLinear(A, B, C).count() << " microseconds" << std::endl;
+    std::cout << "OpenMPI result: " << multiplyOpenMP(A, B, C).count() << " microseconds" << std::endl;
 
 #pragma region Удаление массивов
     for (int i = 0; i < size; i++) {
@@ -65,7 +84,7 @@ inline std::chrono::microseconds multiplyLinear(int** first, int** second, int**
     
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
-            for (int k = 0; k < 2; k++) {
+            for (int k = 0; k < size; k++) {
                 res[i][j] += first[i][k] * second[k][j];
             }
         }
@@ -86,10 +105,10 @@ inline std::chrono::microseconds multiplyOpenMP(int** first, int** second, int**
     
     for (i = 0; i < size; i++) {
         for (j = 0; j < size; j++) {
-            for (int k = 0; k < size; k++) {
+            for (k = 0; k < size; k++) {
                 res[i][j] += first[i][k] * second[k][j];
             }
-        }
+        }   
     }
 
     auto end = std::chrono::high_resolution_clock::now();
