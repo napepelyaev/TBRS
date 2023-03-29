@@ -8,72 +8,72 @@ void print(int** array);
 inline std::chrono::microseconds multiplyLinearIJK(int** first, int** second, int** res);
 inline std::chrono::microseconds multiplyOpenMP(int** first, int** second, int** res);
 inline void resetMatrix(int** matrix);
-//
-//inline std::chrono::microseconds multiplyLinearIKJ(int** first, int** second, int** res)
-//{
-//    auto start = std::chrono::high_resolution_clock::now();
-//
-//    for (int i = 0; i < size; i++) {
-//        for (int k = 0; k < size; k++) {
-//            for (int j = 0; j < size; j++) {
-//                res[i][j] += first[i][k] * second[k][j];
-//            }
-//        }
-//    }
-//
-//    auto end = std::chrono::high_resolution_clock::now();
-//    return std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-//}
-//
-//inline std::chrono::microseconds multiplyLinearJIK(int** first, int** second, int** res)
-//{
-//    auto start = std::chrono::high_resolution_clock::now();
-//
-//    for (int j = 0; j < size; j++) {
-//        for (int i = 0; i < size; i++) {
-//            for (int k = 0; k < size; k++) {
-//                res[i][j] += first[i][k] * second[k][j];
-//            }
-//        }
-//    }
-//
-//    auto end = std::chrono::high_resolution_clock::now();
-//    return std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-//}
-//
-//inline std::chrono::microseconds multiplyLinearJKI(int** first, int** second, int** res)
-//{
-//    auto start = std::chrono::high_resolution_clock::now();
-//
-//    for (int j = 0; j < size; j++) {
-//        for (int k = 0; k < size; k++) {
-//            for (int i = 0; i < size; i++) {
-//                res[i][j] += first[i][k] * second[k][j];
-//            }
-//        }
-//    }
-//
-//    auto end = std::chrono::high_resolution_clock::now();
-//    return std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-//}
-//
 inline std::chrono::microseconds multiplyLinearKIJ(int** first, int** second, int** res);
-//
-//inline std::chrono::microseconds multiplyLinearKJI(int** first, int** second, int** res)
-//{
-//    auto start = std::chrono::high_resolution_clock::now();
-//
-//    for (int k = 0; k < size; k++) {
-//        for (int j = 0; j < size; j++) {
-//            for (int i = 0; i < size; i++) {
-//                res[i][j] += first[i][k] * second[k][j];
-//            }
-//        }
-//    }
-//
-//    auto end = std::chrono::high_resolution_clock::now();
-//    return std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-//}
+
+inline std::chrono::microseconds multiplyLinearIKJ(int** first, int** second, int** res)
+{
+    auto start = std::chrono::high_resolution_clock::now();
+
+    for (int i = 0; i < size; i++) {
+        for (int k = 0; k < size; k++) {
+            for (int j = 0; j < size; j++) {
+                res[i][j] += first[i][k] * second[k][j];
+            }
+        }
+    }
+
+    auto end = std::chrono::high_resolution_clock::now();
+    return std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+}
+
+inline std::chrono::microseconds multiplyLinearJIK(int** first, int** second, int** res)
+{
+    auto start = std::chrono::high_resolution_clock::now();
+
+    for (int j = 0; j < size; j++) {
+        for (int i = 0; i < size; i++) {
+            for (int k = 0; k < size; k++) {
+                res[i][j] += first[i][k] * second[k][j];
+            }
+        }
+    }
+
+    auto end = std::chrono::high_resolution_clock::now();
+    return std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+}
+
+inline std::chrono::microseconds multiplyLinearJKI(int** first, int** second, int** res)
+{
+    auto start = std::chrono::high_resolution_clock::now();
+
+    for (int j = 0; j < size; j++) {
+        for (int k = 0; k < size; k++) {
+            for (int i = 0; i < size; i++) {
+                res[i][j] += first[i][k] * second[k][j];
+            }
+        }
+    }
+
+    auto end = std::chrono::high_resolution_clock::now();
+    return std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+}
+
+
+inline std::chrono::microseconds multiplyLinearKJI(int** first, int** second, int** res)
+{
+    auto start = std::chrono::high_resolution_clock::now();
+
+    for (int k = 0; k < size; k++) {
+        for (int j = 0; j < size; j++) {
+            for (int i = 0; i < size; i++) {
+                res[i][j] += first[i][k] * second[k][j];
+            }
+        }
+    }
+
+    auto end = std::chrono::high_resolution_clock::now();
+    return std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+}
 
 int main()
 {
@@ -100,20 +100,20 @@ int main()
     }
 #pragma endregion
 
-    std::cout << "OpenMP result:\t\t" << multiplyOpenMP(A, B, C).count() << " microseconds" << std::endl;
+    std::cout << "OpenMP:\t\t" << multiplyOpenMP(A, B, C).count() << " microseconds" << std::endl;
     resetMatrix(C);
-    std::cout << "Linear result:\t\t" << multiplyLinearIJK(A, B, C).count() << " microseconds" << std::endl;
+    std::cout << "Sequential:\t" << multiplyLinearIJK(A, B, C).count() << " microseconds" << std::endl;
     resetMatrix(C);
-    //std::cout << "IKJ result\t" << multiplyLinearIKJ(A, B, C).count() << " mic/*roseconds" << std::endl;
-    //resetMatrix(C);
-    //std::cout << "JIK result:\t" << multiplyLinearJIK(A, B, C).count() << " microseconds" << std::endl;
-    //resetMatrix(C);
-    //std::cout << "JKI result:\t" << multiplyLinearJKI(A, B, C).count() << " microseconds" << std::endl;
-    //resetMatrix(C);
-    std::cout << "Optimal Linear result:\t" << multiplyLinearKIJ(A, B, C).count() << " microseconds" << std::endl;
-    //resetMatrix(C);
-    //std::cout << "KJI result:\t" << multiplyLinearKJI(A, B, C).count() << " microseconds" << std::endl;
-    //resetMatrix(C);
+    /*std::cout << "IKJ result:\t" << multiplyLinearIKJ(A, B, C).count() << " microseconds" << std::endl;
+    resetMatrix(C);
+    std::cout << "JIK result:\t" << multiplyLinearJIK(A, B, C).count() << " microseconds" << std::endl;
+    resetMatrix(C);
+    std::cout << "JKI result:\t" << multiplyLinearJKI(A, B, C).count() << " microseconds" << std::endl;
+    resetMatrix(C);*/
+    std::cout << "Optimal seq:\t" << multiplyLinearKIJ(A, B, C).count() << " microseconds" << std::endl;
+    resetMatrix(C);
+    /*std::cout << "KJI result:\t" << multiplyLinearKJI(A, B, C).count() << " microseconds" << std::endl;
+    resetMatrix(C);*/
 
 #pragma region Удаление массивов
     for (int i = 0; i < size; i++) {
