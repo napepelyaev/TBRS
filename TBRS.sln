@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TBRS_3", "TBRS_3\TBRS_3.vcxproj", "{F288597C-120A-44EF-A429-ECAC1C9A3A75}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TBRS_2", "TBRS_2\TBRS_2.vcxproj", "{F288597C-120A-44EF-A429-ECAC1C9A3A75}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TBRS_1", "TBRS_1\TBRS_1.vcxproj", "{A4E8B520-CA40-45F7-96A7-23267ABDD6EF}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TBRS_4", "TBRS_4\TBRS_4.vcxproj", "{BE8C2005-223A-4D9A-894F-27BC6FEACFAA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TBRS_3", "TBRS_3\TBRS_3.vcxproj", "{BE8C2005-223A-4D9A-894F-27BC6FEACFAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
