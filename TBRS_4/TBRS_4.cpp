@@ -14,17 +14,22 @@ void print(int* matrix, int rows, int cols) {
 int main(int argc, char** argv) {
     int size, rank, root = 0;
     std::chrono::steady_clock::time_point start_time, end_time;
+    // Инициализация MPI
     MPI_Init(&argc, &argv);
+    // Получение общего количества процессоd и номера текущего
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     const int rows = 1000, cols = 1000;
+    // Создание матриц
     int* A = new int[rows * cols];
     int* B = new int[rows * cols];
     int* C = new int[rows * cols];
+    // Создание подматриц
     int* subA = new int[(rows / size) * cols];
     int* subC = new int[(rows / size) * cols];
 
+    // Инициализация матриц случайными числами
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
             A[i * cols + j] = rand() % 10;
@@ -32,6 +37,7 @@ int main(int argc, char** argv) {
         }
     }
 
+    // Если главный процесс - вывод исходных матриц и старт таймера
     if (rank == root)
     {
         //std::cout << "Matrix A" << std::endl;
@@ -41,13 +47,21 @@ int main(int argc, char** argv) {
         start_time = std::chrono::high_resolution_clock::now();
     }
 
-    // Scatter A to all processes
+    // Распределение матрицы A между доступными процессорами
+    // Данные начинаются с указателя A
+    // Делятся на rows/size * cols блоков (100) по 
+    // Тип данных в блоке INT
+    // Адрес для начала приема в subA
+    // Получается столько же элементов, сколько и отправлясется
+    // Эти элементы типа INT
+    // Адрес отправителя root (0)
+    // Область сообщений - MPI_COMM_WORLD, которая объединяет все процессы
     MPI_Scatter(A, (rows / size) * cols, MPI_INT, subA, (rows / size) * cols, MPI_INT, root, MPI_COMM_WORLD);
 
-    // Broadcast B to all processes
+    // Передача матрицы B на все процессы
     MPI_Bcast(B, rows * cols, MPI_INT, root, MPI_COMM_WORLD);
 
-    // Multiply subA with B
+    // Умножение полученого куска матрицы A на матрицу B
     for (int i = 0; i < rows / size; i++) {
         for (int j = 0; j < cols; j++) {
             subC[i * cols + j] = 0;
@@ -57,11 +71,11 @@ int main(int argc, char** argv) {
         }
     }
 
-    // Gather subC from all processes to C on root process
+    // Получение всех результирующих подматриц C
     MPI_Gather(subC, (rows / size) * cols, MPI_INT, C, (rows / size) * cols, MPI_INT, root, MPI_COMM_WORLD);
 
+    // Если корневой процесс - вывод времени и итоговой матрицы
     if (rank == root) {
-        // Print result matrix C
         end_time = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
         std::cout << "Time: " << duration.count() << std::endl;
@@ -69,6 +83,7 @@ int main(int argc, char** argv) {
         //print(C, rows, cols);
     }
 
+    // Очистка используемой памяти, завершение всех процессов
     delete[] A;
     delete[] B;
     delete[] C;
