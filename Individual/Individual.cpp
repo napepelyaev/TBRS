@@ -31,5 +31,4 @@ int main()
     matrix_float(1, 1) = 0.15F;
     matrix_float.remove_row(2);
     matrix_float.print();
-    std::cout << "Hello World!\n";
 }
