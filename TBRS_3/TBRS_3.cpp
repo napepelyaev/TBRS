@@ -118,3 +118,4 @@ void eraseArrays(double** A, double* b, double* x) {
     delete[] A;
     delete[] b;
     delete[] x;
+}
