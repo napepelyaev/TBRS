@@ -1,7 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <stdexcept>
-#include <utility>
+
 #pragma once
 
 template<typename T>
@@ -39,7 +39,10 @@ public:
     /// <param name="rows">Количество столбцов</param>
     /// <param name="cols">Количество строк</param>
     DynamicArray2D(std::size_t rows, std::size_t cols)
-        : data_(new T[rows * cols]), rows_(rows), cols_(cols) {}
+        : data_(new T[rows * cols]), rows_(rows), cols_(cols) 
+    {
+        for (size_t i = 0; i < rows_ * cols_; i++) data_[i] = INT_MIN;
+    }
     /// <summary>
     /// Конструктор, создающий заполненный массив [rows] на [cols]
     /// </summary>
@@ -71,7 +74,7 @@ public:
 #pragma region Изменение размера матрицы
 
     /// <summary>
-    /// Изменение размера объекта. Созданные элементы равны нулю
+    /// Изменение размера объекта. Созданные элементы равны INT_MIN
     /// </summary>
     /// <param name="rows">Требуемое количество столбцов</param>
     /// <param name="cols">Требуемое количестов строк</param>
@@ -88,12 +91,12 @@ public:
     /// <summary>
     /// Вставить столбец в объект. 
     /// Если массив больше количества строк, то запишется только допустимое количество значений.
-    /// Если массив меньше количества строк, то незаполненные данные будут пустыми.
+    /// Если массив меньше количества строк, то незаполненные данные будут равны INT_MIN.
     /// </summary>
     /// <param name="index">Индекс, которым будет вставляемый столбец</param>
     /// <param name="row_data">Вставляемый стобец</param>
     void insert_col(std::size_t index, const T* col_data) {
-        if (index > cols_ or index < 0) {
+        if (index > cols_ || index < 0) {
             throw std::out_of_range("Invalid column index");
         }
         DynamicArray2D<T> tmp(rows_, cols_ + 1);
@@ -101,7 +104,7 @@ public:
             for (std::size_t j = 0; j < index; ++j) {
                 tmp(i, j) = (*this)(i, j);
             }
-            tmp(i, index) = copy(col_data[i]);
+            tmp(i, index) = col_data[i];
             for (std::size_t j = index; j < cols_; ++j) {
                 tmp(i, j + 1) = (*this)(i, j);
             }
@@ -113,7 +116,7 @@ public:
     /// </summary>
     /// <param name="index">Индекс удалемой строки</param>
     void remove_col(std::size_t index) {
-        if (index >= cols_ or index < 0) {
+        if (index >= cols_ || index < 0) {
             throw std::out_of_range("Invalid column index");
         }
         DynamicArray2D<T> tmp(rows_, cols_ - 1);
@@ -133,12 +136,12 @@ public:
     /// <summary>
     /// Вставить строку в объект. 
     /// Если массив больше количества столбцов, то запишется только допустимое количество значений.
-    /// Если массив меньше количества столбцов, то незаполненные данные будут пустыми.
+    /// Если массив меньше количества столбцов, то незаполненные данные будут равны INT_MIN.
     /// </summary>
     /// <param name="index">Индекс, которым будет вставляемая строка</param>
     /// <param name="row_data">Вставляемая строка</param>
     void insert_row(std::size_t index, const T* row_data) {
-        if (index > rows_ or index < 0) {
+        if (index > rows_ || index < 0) {
             throw std::out_of_range("Invalid row index");
         }
 
@@ -149,7 +152,7 @@ public:
             }
         }
         for (std::size_t j = 0; j < cols_; ++j) {
-            tmp(index, j) = copy(row_data[j]);
+            tmp(index, j) = row_data[j];
         }
         for (std::size_t i = index; i < rows_; ++i) {
             for (std::size_t j = 0; j < cols_; ++j) {
@@ -164,7 +167,7 @@ public:
     /// </summary>
     /// <param name="index">Индекс удаляемой строки</param>
     void remove_row(std::size_t index) {
-        if (index >= rows_ or index < 0) {
+        if (index >= rows_ || index < 0) {
             throw std::out_of_range("Invalid row index");
         }
         DynamicArray2D<T> tmp(rows_ - 1, cols_);
