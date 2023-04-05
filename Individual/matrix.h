@@ -214,11 +214,17 @@ public:
     }
 #pragma endregion
 #pragma region –абота с итераторами
-
+    /// <summary>
+    /// ¬озвращает указатель на начало массива (итератор)
+    /// </summary>
+    /// <returns></returns>
     T* begin() {
         return data_;
     }
-
+    /// <summary>
+    /// ¬озвращает указатель на последний элемент массива (дл€ остановки итератора)
+    /// </summary>
+    /// <returns></returns>
     T* end() {
         return data_ + (rows_ * cols_);
     }
