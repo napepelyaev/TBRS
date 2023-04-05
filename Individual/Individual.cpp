@@ -31,4 +31,7 @@ int main()
     matrix_float(1, 1) = 0.15F;
     matrix_float.remove_row(2);
     matrix_float.print();
+    for (int data : matrix_int) {
+        std::cout << data;
+    }
 }

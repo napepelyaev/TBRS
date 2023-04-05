@@ -215,14 +215,11 @@ public:
 #pragma endregion
 #pragma region Работа с итераторами
 
-    typedef T* iterator;
-    typedef const T* const_iterator;
-
-    iterator begin() {
+    T* begin() {
         return data_;
     }
 
-    iterator end() {
+    T* end() {
         return data_ + (rows_ * cols_);
     }
 
