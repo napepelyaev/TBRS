@@ -109,6 +109,15 @@ namespace UnitTestIndividual
 			Assert::AreEqual(5, matrix1(2, 1));
 			Assert::AreEqual(0, matrix2(3, 2));
 		}
+
+		TEST_METHOD(TestIerators) {
+			DynamicArray2D<int> matrix = create_fill_matrix(3, 3);
+			int sum = 0;
+			for (int number : matrix) {
+				sum += number;
+			}
+			Assert::AreEqual(36, sum);
+		}
 	};
 	TEST_CLASS(UnitTestIndividualFloat)
 	{
@@ -217,6 +226,16 @@ namespace UnitTestIndividual
 			swap(matrix1, matrix2);
 			Assert::AreEqual(2.5F, matrix1(2, 1));
 			Assert::AreEqual(0.0F, matrix2(3, 2));
+		}
+
+
+		TEST_METHOD(TestIerators) {
+			DynamicArray2D<float> matrix = create_fill_matrix(3, 3);
+			float sum = 0;
+			for (float number : matrix) {
+				sum += number;
+			}
+			Assert::AreEqual(12.6F, sum);
 		}
 	};
 }
