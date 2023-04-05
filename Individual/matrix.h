@@ -5,7 +5,7 @@
 #pragma once
 
 template<typename T>
-class DynamicArray2D {
+class Matrix {
 private:
     T* data_;
     std::size_t rows_;
@@ -32,13 +32,13 @@ public:
     /// <summary>
     /// Конструктор, создающий пустой массив, 0 строк, 0 столбцов
     /// </summary>
-    DynamicArray2D() : data_(nullptr), rows_(0), cols_(0) {}
+    Matrix() : data_(nullptr), rows_(0), cols_(0) {}
     /// <summary>
     /// Конструктор, создающий пустой массив [rows] на [cols]
     /// </summary>
     /// <param name="rows">Количество столбцов</param>
     /// <param name="cols">Количество строк</param>
-    DynamicArray2D(std::size_t rows, std::size_t cols)
+    Matrix(std::size_t rows, std::size_t cols)
         : data_(new T[rows * cols]), rows_(rows), cols_(cols) 
     {
         for (size_t i = 0; i < rows_ * cols_; i++) data_[i] = INT_MIN;
@@ -49,7 +49,7 @@ public:
     /// <param name="rows">Количество столбцов</param>
     /// <param name="cols">Количество строк</param>
     /// <param name="data">Значение, которым будет заполнена матрица</param>
-    DynamicArray2D(std::size_t rows, std::size_t cols, T data)
+    Matrix(std::size_t rows, std::size_t cols, T data)
         : data_(new T[rows * cols]), rows_(rows), cols_(cols)
     {
         for (size_t i = 0; i < rows_ * cols_; i++) data_[i] = data;
@@ -58,7 +58,7 @@ public:
     /// Конструктор копирования
     /// </summary>
     /// <param name="other">Объект, который необходмимо скопировать</param>
-    DynamicArray2D(const DynamicArray2D& other)
+    Matrix(const Matrix& other)
         : data_(new T[other.rows_ * other.cols_]), rows_(other.rows_), cols_(other.cols_)
     {
         std::copy(other.data_, other.data_ + (other.rows_ * other.cols_), data_);
@@ -66,7 +66,7 @@ public:
     /// <summary>
     /// Деструктор объекта
     /// </summary>
-    ~DynamicArray2D() {
+    ~Matrix() {
         delete[] data_;
     }
 #pragma endregion
@@ -79,7 +79,7 @@ public:
     /// <param name="rows">Требуемое количество столбцов</param>
     /// <param name="cols">Требуемое количестов строк</param>
     void resize(std::size_t rows, std::size_t cols) {
-        DynamicArray2D<T> tmp(rows, cols);
+        Matrix<T> tmp(rows, cols);
         for (std::size_t i = 0; i < std::min(rows_, rows); ++i)
             for (std::size_t j = 0; j < std::min(cols_, cols); ++j)
                 tmp(i, j) = (*this)(i, j);
@@ -99,7 +99,7 @@ public:
         if (index > cols_ || index < 0) {
             throw std::out_of_range("Invalid column index");
         }
-        DynamicArray2D<T> tmp(rows_, cols_ + 1);
+        Matrix<T> tmp(rows_, cols_ + 1);
         for (std::size_t i = 0; i < rows_; ++i) {
             for (std::size_t j = 0; j < index; ++j) {
                 tmp(i, j) = (*this)(i, j);
@@ -119,7 +119,7 @@ public:
         if (index >= cols_ || index < 0) {
             throw std::out_of_range("Invalid column index");
         }
-        DynamicArray2D<T> tmp(rows_, cols_ - 1);
+        Matrix<T> tmp(rows_, cols_ - 1);
         for (std::size_t i = 0; i < rows_; ++i) {
             for (std::size_t j = 0; j < index; ++j) {
                 tmp(i, j) = (*this)(i, j);
@@ -145,7 +145,7 @@ public:
             throw std::out_of_range("Invalid row index");
         }
 
-        DynamicArray2D<T> tmp(rows_ + 1, cols_);
+        Matrix<T> tmp(rows_ + 1, cols_);
         for (std::size_t i = 0; i < index; ++i) {
             for (std::size_t j = 0; j < cols_; ++j) {
                 tmp(i, j) = (*this)(i, j);
@@ -170,7 +170,7 @@ public:
         if (index >= rows_ || index < 0) {
             throw std::out_of_range("Invalid row index");
         }
-        DynamicArray2D<T> tmp(rows_ - 1, cols_);
+        Matrix<T> tmp(rows_ - 1, cols_);
         for (std::size_t i = 0; i < index; ++i) {
             for (std::size_t j = 0; j < cols_; ++j) {
                 tmp(i, j) = (*this)(i, j);
@@ -238,7 +238,7 @@ public:
     /// </summary>
     /// <param name="first">Первая матрица</param>
     /// <param name="second">Вторая матрица</param>
-    friend void swap(DynamicArray2D& first, DynamicArray2D& second) {
+    friend void swap(Matrix& first, Matrix& second) {
         std::swap(first.data_, second.data_);
         std::swap(first.rows_, second.rows_);
         std::swap(first.cols_, second.cols_);

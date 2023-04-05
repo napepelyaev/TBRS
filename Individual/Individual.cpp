@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 #include "matrix.h"
 
-void fill_matrix(DynamicArray2D<int>& array) {
+void fill_matrix(Matrix<int>& array) {
     for (size_t i = 0; i < array.rows_count(); i++)
     {
         for (size_t j = 0; j < array.cols_count(); j++)
@@ -11,7 +11,7 @@ void fill_matrix(DynamicArray2D<int>& array) {
     }
 }
 
-void fill_matrix(DynamicArray2D<float>& matrix) {
+void fill_matrix(Matrix<float>& matrix) {
     for (size_t i = 0; i < matrix.rows_count(); i++)
     {
         for (size_t j = 0; j < matrix.cols_count(); j++)
@@ -23,10 +23,10 @@ void fill_matrix(DynamicArray2D<float>& matrix) {
 
 int main()
 {
-    DynamicArray2D<int> matrix_int = DynamicArray2D<int>(3, 3);
+    Matrix<int> matrix_int = Matrix<int>(3, 3);
     fill_matrix(matrix_int);
     matrix_int.print();
-    DynamicArray2D<float> matrix_float = DynamicArray2D<float>(3, 3);
+    Matrix<float> matrix_float = Matrix<float>(3, 3);
     fill_matrix(matrix_float);
     matrix_float(1, 1) = 0.15F;
     matrix_float.remove_row(2);
