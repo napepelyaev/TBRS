@@ -123,6 +123,20 @@ namespace UnitTestIndividual
 			}
 			Assert::AreEqual(36, sum);
 		}
+
+		TEST_METHOD(TestConstructor) {
+			Matrix<int> matrix1 = Matrix<int>(3, 3);
+			Matrix<int> matrix2 = Matrix<int>(matrix1);
+
+			Assert::AreEqual(matrix1(1,2), matrix2(1,2));
+		}
+
+		TEST_METHOD(TestOperator) {
+			Matrix<int> matrix1 = Matrix<int>(3, 3);
+			Matrix<int> matrix2 = matrix1;
+
+			Assert::AreEqual(matrix1(1, 2), matrix2(1, 2));
+		}
 	};
 	TEST_CLASS(UnitTestIndividualFloat)
 	{
@@ -237,7 +251,6 @@ namespace UnitTestIndividual
 			Assert::AreEqual(0.0F, matrix2(3, 2));
 		}
 
-
 		TEST_METHOD(TestIerators) {
 			Matrix<float> matrix = Matrix<float>(3, 3);
 			fill_matrix(matrix);
@@ -246,6 +259,20 @@ namespace UnitTestIndividual
 				sum += number;
 			}
 			Assert::AreEqual(12.6F, sum);
+		}
+
+		TEST_METHOD(TestConstructor) {
+			Matrix<float> matrix1 = Matrix<float>(3, 3);
+			Matrix<float> matrix2 = Matrix<float>(matrix1);
+
+			Assert::AreEqual(matrix1(1, 2), matrix2(1, 2));
+		}
+
+		TEST_METHOD(TestOperator) {
+			Matrix<float> matrix1 = Matrix<float>(3, 3);
+			Matrix<float> matrix2 = matrix1;
+
+			Assert::AreEqual(matrix1(1, 2), matrix2(1, 2));
 		}
 	};
 }
