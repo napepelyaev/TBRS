@@ -46,7 +46,7 @@ public:
         data_ = new T[rows * cols];
         rows_ = rows;
         cols_ = cols;
-        for (size_t i = 0; i < rows_ * cols_; i++) data_[i] = 0;
+        for (size_t i = 0; i < rows_ * cols_; i++) data_[i] = (T)0;
     }
     /// <summary>
     /// Конструктор, создающий заполненный массив [rows] на [cols]
@@ -190,7 +190,7 @@ public:
         swap(*this, tmp);
     }
 #pragma endregion
-#pragma region Доступ по индексам
+#pragma region Перегрузка операторов
 
     /// <summary>
     /// Возвращает объект сместо [] (невозможно использовать из-за ограничений cpp)
